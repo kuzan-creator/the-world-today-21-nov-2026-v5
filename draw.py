@@ -155,23 +155,23 @@ def pic(d, kind, x, y, w, h):
 
 # n, tag, strip colour, picture, banner, badge, caption, headline, summary, status
 HEROES = [
-    dict(n=1, tag="ANTALYA, TURKIYE - CLIMATE", col=TEAL, kind="globe",
+    dict(n=1, tag="ANTALYA, TURKIYE", col=TEAL, kind="globe",
          banner="COP31: OVERTIME", stat="DAY 13 OF 12", cap="Talks ongoing · AFP",
          head="COP31 runs into overtime with no deal",
-         body="Talks pass the Friday deadline; a third draft is due Saturday morning, still with no mention of fossil fuels. (AP, Al Jazeera)", st="OFFICIAL"),
-    dict(n=2, tag="RIYADH - CONFLICT", col=NAVY, kind="missile",
+         body="Talks pass the Friday deadline; a third draft is due Saturday, still with no mention of fossil fuels. (AP)", st="OFFICIAL"),
+    dict(n=2, tag="RIYADH", col=NAVY, kind="missile",
          banner="RIYADH: 3 DOWNED", stat="3 INTERCEPTED", cap="Coalition says · Reuters",
          head="Coalition downs three missiles over Riyadh",
          body="Air defences destroy three ballistic missiles fired at the capital early Saturday, a third straight night of alerts. (Reuters)", st="OFFICIAL"),
-    dict(n=3, tag="KYIV & KRYVYI RIH - WAR", col=RED, kind="kyiv",
+    dict(n=3, tag="KYIV & KRYVYI RIH", col=RED, kind="kyiv",
          banner="UKRAINE: STRIKES", stat="42 HURT", cap="Officials · Kyiv Post",
          head="Russia hits Kyiv again as Kryvyi Rih counts its dead",
-         body="Dawn missile hits set homes ablaze in Kyiv's Podil; a double-tap strike in Kryvyi Rih killed a boy and a medic, 42 hurt. (Kyiv Post)", st="REPORTED"),
+         body="Dawn hits set homes ablaze in Kyiv's Podil; a double-tap strike in Kryvyi Rih killed a boy and a medic. (Kyiv Post)", st="REPORTED"),
 ]
 SMALLS = [
     dict(n=4, tag="JUNIN, PERU", col=(140, 110, 20), kind="quake",
          stat="M6.7", head="Magnitude 6.7 earthquake shakes central Peru",
-         body="The deep quake struck at 00:09 GMT near Junin, felt in Lima. No deaths reported. (USGS)", st="OFFICIAL"),
+         body="Deep quake at 00:09 GMT near Junin, felt in Lima. No deaths. (USGS)", st="OFFICIAL"),
     dict(n=5, tag="DAVAO", col=(20, 60, 140), kind="plane",
          stat="146 SAFE", head="Jet lands safely after engine-fire alert",
          body="Air Niugini 767 diverts after midnight; all 146 aboard safe. (AP)", st="OFFICIAL"),
@@ -204,9 +204,9 @@ MORE = [
     "14 Kyiv: Zelensky warns Crimea bridge 'will not stay' (NBC)",
     "15 Copenhagen: Russian attack expelled over a plot (Al Jazeera)",
     "16 Antalya: EU warns COP31 risks a 'fossil summit' (AFP)",
-    "17 Antalya: Panama threatens to block the climate text (Al Jazeera)",
+    "17 Antalya: Panama may block the climate text (Al Jazeera)",
     "18 Jakarta: PLN signs clean-power deals (Antara)",
-    "19 Yemen: Houthis threaten Jeddah and Red Sea ports (Al Jazeera)",
+    "19 Yemen: Houthis threaten Jeddah and Red Sea (Al Jazeera)",
     "20 Washington: Vance speaks on the Iran strikes (Reuters)",
     "21 Washington: Lawmaker threatens SpaceX funding (CNN)",
     "22 Texas: Execution of a man of 70 takes 63 minutes (ABC)",
@@ -220,12 +220,12 @@ MORE = [
     "30 New Delhi: Pakistani minister joins SCO forum in India (Dawn)",
     "31 Myanmar: Rights groups urge sanctions after court ruling (AP)",
     "32 Eastern India: Rain alerts as Akvan's remnant passes (ETV)",
-    "33 Port Louis: African ratings agency talks to 15 states (Al Jazeera)",
+    "33 Port Louis: African ratings agency meets 15 states (Al Jazeera)",
     "34 Melbourne: Cummins keeps the Australian captaincy (ABC)",
     "35 Turin: Medvedev meets Zverev in the semi-finals (ATP)",
     "36 Seoul: South Korea moves to impeach chief justice (Reuters)",
     "37 Kathmandu: Nepal PM Balendra Shah heads to India (PTI)",
-    "38 Nairobi: Kenya begins onshore crude drilling in Turkana (Reuters)",
+    "38 Nairobi: Kenya starts onshore oil drilling in Turkana (Reuters)",
     "39 Dar es Salaam: Tanzania's Lissu convicted of sedition (AFP)",
     "40 Johannesburg: Nearly 600 women killed in 3 months (Reuters)",
     "41 Baghdad: Basra power-plant fire kills at least 4 (AP)",
@@ -235,19 +235,17 @@ MORE = [
 
 def hero_card(d, x, y, w, h, c):
     d.rectangle([x, y, x + w, y + h], outline=INK, width=1, fill=CREAM)
-    pic(d, c["kind"], x + 1, y + 1, w - 2, 78)
-    d.rectangle([x + 1, y + 1, x + w - 1, y + 21], fill=RED)
-    d.text((x + 8, y + 4), c["banner"], font=F_BANNER, fill=(255, 255, 255))
-    badge(d, x + w - 8 - (d.textlength(c["stat"], font=F_BADGE) + 10), y + 24, c["stat"])
-    d.rectangle([x + 1, y + 66, x + w - 1, y + 79], fill=(0, 0, 0))
-    d.text((x + 8, y + 68), c["cap"], font=F_CAP, fill=(255, 255, 255))
-    ty = y + 84
-    d.text((x + 6, ty), f"{c['n']}  {c['tag']}", font=F_TAG, fill=RED)
-    ty += 13
+    pic(d, c["kind"], x + 1, y + 1, w - 2, 80)
+    ty = y + 86
+    d.text((x + 6, ty), f"{c['n']}  {c['tag']}  —  {c['banner']}", font=F_TAG, fill=RED)
+    ty += 14
+    d.text((x + 6, ty), c["cap"], font=F_CAP, fill=DIM)
+    badge(d, x + w - 8 - (d.textlength(c["stat"], font=F_BADGE) + 10), ty - 2, c["stat"])
+    ty += 18
     for ln in wrap(d, c["head"], F_H, w - 12)[:2]:
         d.text((x + 6, ty), ln, font=F_H, fill=INK)
         ty += 18
-    for ln in wrap(d, c["body"], F_B, w - 12)[:3]:
+    for ln in wrap(d, c["body"], F_B, w - 12)[:2]:
         d.text((x + 6, ty), ln, font=F_B, fill=DIM)
         ty += 14
 
@@ -268,6 +266,11 @@ def small_card(d, x, y, w, h, c):
 
 def draw_map(d, mx, my, mw, mh):
     d.rectangle([mx, my, mx + mw, my + mh], fill=(200, 225, 240), outline=INK)
+    sx, sy = mw / 300.0, mh / 150.0
+    def X(px):
+        return mx + px * sx
+    def Y(py):
+        return my + py * sy
     # Rough continents as polygons, in map-local coordinates.
     na = [(18, 22), (52, 14), (88, 20), (96, 38), (78, 52), (60, 44), (44, 58), (30, 66), (16, 44)]
     sa = [(52, 78), (76, 74), (92, 92), (82, 122), (64, 128), (50, 104)]
@@ -276,13 +279,13 @@ def draw_map(d, mx, my, mw, mh):
     asia = [(184, 20), (230, 12), (268, 22), (276, 48), (252, 62), (220, 58), (196, 66), (182, 44)]
     au = [(236, 108), (268, 104), (282, 118), (262, 132), (238, 126)]
     for poly in (na, sa, eu, af, asia, au):
-        d.polygon([(mx + px, my + py) for px, py in poly], fill=(230, 215, 160), outline=(180, 160, 110))
-    d.text((mx + 8, my + 4), "PACIFIC", font=F_SB, fill=(60, 90, 140))
-    d.text((mx + 118, my + 132), "ATLANTIC", font=F_SB, fill=(60, 90, 140))
+        d.polygon([(X(px), Y(py)) for px, py in poly], fill=(230, 215, 160), outline=(180, 160, 110))
+    d.text((X(8), Y(4)), "PACIFIC", font=F_SB, fill=(60, 90, 140))
+    d.text((X(118), Y(132)), "ATLANTIC", font=F_SB, fill=(60, 90, 140))
     pins = [(140, 34), (196, 52), (170, 60), (66, 88), (40, 30), (248, 30), (148, 44), (90, 46), (76, 96), (206, 78), (252, 44), (96, 108), (252, 116)]
     for i, (px, py) in enumerate(pins):
-        d.ellipse([mx + px - 6, my + py - 6, mx + px + 6, my + py + 6], fill=RED, outline=(255, 255, 255))
-        d.text((mx + px - 3, my + py - 5), str(i + 1), font=F_SB, fill=(255, 255, 255))
+        d.ellipse([X(px) - 6, Y(py) - 6, X(px) + 6, Y(py) + 6], fill=RED, outline=(255, 255, 255))
+        d.text((X(px) - 3, Y(py) - 5), str(i + 1), font=F_SB, fill=(255, 255, 255))
 
 def build():
     img = Image.new("RGB", (PAGE, PAGE), PAPER)
@@ -321,23 +324,22 @@ def build():
         x += seg
     hw = (PAGE - 32 - 16) / 3
     for i, c in enumerate(HEROES):
-        hero_card(d, 16 + i * (hw + 8), 226, hw, 172, c)
+        hero_card(d, 16 + i * (hw + 8), 226, hw, 190, c)
     sw = (PAGE - 32 - 32) / 5
-    y = 406
+    y = 424
     for r in range(2):
         for i in range(5):
-            small_card(d, 16 + i * (sw + 8), y, sw, 138, SMALLS[r * 5 + i])
-        y += 146
-    y = 700
+            small_card(d, 16 + i * (sw + 8), y, sw, 136, SMALLS[r * 5 + i])
+        y += 142
+    y = 708
     d.text((16, y), "WHERE IT HAPPENED", font=F_SB, fill=RED)
-    d.text((330, y), "ALSO ON SATURDAY 21 NOVEMBER 2026  —  30 MORE STORIES  •  43 IN ALL", font=F_SB, fill=RED)
-    draw_map(d, 16, y + 18, 300, 150)
-    d.text((16, y + 172), "Red numbers mark stories 1-13.", font=F_S, fill=(80, 80, 80))
+    d.text((266, y), "ALSO ON SATURDAY 21 NOVEMBER 2026  —  30 MORE STORIES  •  43 IN ALL", font=F_SB, fill=RED)
+    draw_map(d, 16, y + 18, 240, 120)
     for i, s in enumerate(MORE):
         col = i // 15
         row = i % 15
-        d.text((330 + col * 330, y + 18 + row * 11), s, font=F_LIST, fill=INK)
-    by = 892
+        d.text((266 + col * 380, y + 18 + row * 11), s, font=F_LIST, fill=INK)
+    by = 890
     d.rectangle([16, by, PAGE - 16, by + 76], outline=RED, width=2)
     d.text((24, by + 6), "DATE CHECK  ✓", font=F_SB, fill=RED)
     note = ("Every story here happened, or was first reported, on Saturday 21 November 2026. LEFT OUT — other days' news: "
@@ -347,9 +349,9 @@ def build():
     for ln in wrap(d, note, F_BS, PAGE - 48):
         d.text((24, ty), ln, font=F_BS, fill=INK)
         ty += 13
-    d.text((16, 978), "Every story here happened, or was first reported, on Saturday 21 November 2026. Officials' counts and claims are attributed.",
+    d.text((16, 976), "Every story here happened, or was first reported, on Saturday 21 November 2026. Officials' counts and claims are attributed.",
            font=F_S, fill=(80, 80, 80))
-    d.text((16, 996), "Sources: Reuters, AP, AFP, BBC, Al Jazeera, USGS, ESA, CoinGecko, Kyiv Post  •  Pictures and map: original, drawn in code  •  21 November 2026",
+    d.text((16, 994), "Sources: Reuters, AP, AFP, BBC, Al Jazeera, USGS, ESA, CoinGecko, Kyiv Post  •  Pictures and map: original, drawn in code  •  21 November 2026",
            font=F_S, fill=(80, 80, 80))
     img.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "entry.png"))
     print("saved entry.png", img.size)
